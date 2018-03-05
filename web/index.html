@@ -1,0 +1,168 @@
+
+
+
+<!DOCTYPE html>
+<html style="margin: 0px; height: 100%;">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <script>
+        var ws;
+        (function(window, document,JSON){
+            'use strict';
+            var url ='ws://'+window.location.host+'/ejmplows/chatbien';
+             ws= new WebSocket(url);
+            
+            var boton = document.getElementById("btnenviar");
+           
+            
+            ws.onopen = onOpen;
+            ws.onclose = onClose;
+            ws.onmessage = onMessage;
+      
+            
+            
+            function onOpen(){
+                console.log('conectado....');
+                
+                
+            }
+                function onClose(){
+                console.log('desconectado....');
+            }
+              
+           
+            function onMessage(evt){
+                var obj = JSON.parse(evt.data),
+                msg=obj.nombre+' dice: '+obj.mensaje,
+                elnom = obj.nombre,
+                msgtu= ' Tu: '+obj.mensaje; 
+        
+                if(elnom===(nombre.value))
+                {
+                   document.getElementById("conversacion").innerHTML += " <div class='contmio'><div class='mensajemio'>" +msgtu +"</div></div><br>";
+               }
+               else{
+                   document.getElementById("conversacion").innerHTML += " <div class='cont'><div class='mensaje'>" +msg +"</div></div><br>";
+                   
+               }
+            }
+            
+
+        })
+        (window, document, JSON);
+        
+          function enviar(){
+          
+                        var msg={
+                        nombre: nombre.value,
+                        mensaje: mensaje.value
+                    };
+                ws.send(JSON.stringify(msg));
+            } 
+    </script>
+    <style>
+        .frame{
+            border: 0px;
+            width:100%;
+            height: 100%;
+        }
+        .contiene{
+            width: 100%;
+            height: 95%;
+            
+        }
+        .citems{
+            width: 100%;
+            height: 20%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-content: center;
+        }
+        .te{
+            margin-top: 20px;
+                
+            width: 50%;
+            height: 50%;
+            font-size: 25px;
+            
+        }
+        .subir{
+             margin-top: 20px;
+                width: 30%;
+            height: 50%;
+            background: #4E63E6;
+             color: white;
+             font-size: 25px;
+             border: 0px solid;
+             border-radius:5%;
+        }
+        .texti{
+              width: 100%;
+            height: 80%;
+              
+                
+            
+        }
+        form{
+               width: 100%;
+            height: 100%;
+        }
+     
+        .mensaje{
+           margin-left: 20px;
+            background: #F8BBD0;
+            border-radius: 5px;
+          display: inline-block;
+         
+            font-size: 20px;
+            padding: 10px;
+            
+        }
+           .mensajemio{
+         
+           margin-right: 20px;
+          background: #4E63E6;
+            border-radius: 5px;
+          display: inline-block;
+        
+           
+            font-size: 20px;
+            padding: 10px;
+            
+        }
+        .cont{
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+        }
+        .contmio{
+                 width: 100%;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+    </style>
+    <body style="margin: 0px; height: 100%;">
+       
+       <div class="contiene">  
+       
+        <input type="text" id="nombre">
+          
+          
+             <div class="citems">
+                 <input  type="text" class="te" placeholder="Ingresa tu mensaje" id="mensaje">&nbsp &nbsp &nbsp
+                 <div class="subir" id="btnenviar" onClick="enviar()">Enviar</div>
+            </div>
+                <div class="texti" id="conversacion">
+                 Mensajes
+                 
+                
+                 
+                </div>
+            </div>
+       
+    </body>
+</html>
